@@ -25,9 +25,9 @@ class MemberController {
 	}
 
 	async store (req, res) {
-		const { name } = req.body;
+		const { name, email } = req.body;
 
-		if (await Member.findOne({ name })) {
+		if ((await Member.findOne({ name })) || (await Member.findOne({ email }))) {
 			return res.status(400).json({ error: "Member already exists!" });
 		}
 
