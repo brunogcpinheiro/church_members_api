@@ -4,8 +4,10 @@ const UserController = require("./controllers/UserController");
 const SessionController = require("./controllers/SessionController");
 const authMiddleware = require("./middlewares/auth");
 
-routes.post("/users", UserController.store);
-routes.post("/sessions", SessionController.store);
+const controllers = require("./controllers");
+
+routes.post("/users", controllers.UserController.store);
+routes.post("/sessions", controllers.SessionController.store);
 
 routes.get("/teste", authMiddleware, (req, res) => res.json({ ok: true }));
 
