@@ -2,7 +2,18 @@ const Member = require("../models/Member");
 
 class MemberController {
 	async index (req, res) {
-		const members = await Member.find();
+		const filters = {};
+
+		if (req.query.name) {
+			filters.name = new RegExp(req.query.name, "i");
+		}
+
+		const members = await Member.paginate(filters, {
+			page: req.query.page || 1,
+			limit: 20,
+			populate: [ "createdBy" ],
+			sort: "-createdAt",
+		});
 
 		return res.json(members);
 	}
@@ -14,6 +25,12 @@ class MemberController {
 	}
 
 	async store (req, res) {
+		const { name } = req.body;
+
+		if (await Member.findOne({ name })) {
+			return res.status(400).json({ error: "Member already exists!" });
+		}
+
 		const member = await Member.create({ ...req.body, createdBy: req.userId });
 
 		return res.json(member);
