@@ -1,4 +1,4 @@
 module.exports = {
-	secret: "chuch_mmebers",
-	ttl: 86400,
+	secret: process.env.APP_SECRET,
+	ttl: process.env.TOKEN_EXPIRE_TIME,
 };
