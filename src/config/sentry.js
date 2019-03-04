@@ -1,3 +1,3 @@
 module.exports = {
-	dsn: "https://1a4f0d40f0ce4456a35b72b55c3181b3@sentry.io/1407368",
+	dsn: "https://c043896c8cab44ce8f5196f56f1f65d1@sentry.io/1407528",
 };

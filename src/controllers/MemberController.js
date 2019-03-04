@@ -25,7 +25,6 @@ class MemberController {
 	}
 
 	async store (req, res) {
-		//throw new Error();
 		const { name, email } = req.body;
 
 		if (await Member.findOne({ name })) {
