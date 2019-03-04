@@ -1,7 +1,9 @@
 const express = require("express");
 const routes = express.Router();
 const validate = require("express-validation");
+const handler = require("express-async-handler");
 const authMiddleware = require("./middlewares/auth");
+const errorHandlerMiddleware = require("./middlewares/errorHandler");
 
 const controllers = require("./controllers");
 const validators = require("./validators");
@@ -9,12 +11,12 @@ const validators = require("./validators");
 routes.post(
 	"/users",
 	validate(validators.User),
-	controllers.UserController.store,
+	handler(controllers.UserController.store),
 );
 routes.post(
 	"/sessions",
 	validate(validators.Session),
-	controllers.SessionController.store,
+	handler(controllers.SessionController.store),
 );
 
 // Routes below this "routes.use" must be authenticated
@@ -23,18 +25,20 @@ routes.use(authMiddleware);
 /**
  * Members Routes
  */
-routes.get("/members", controllers.MemberController.index);
-routes.get("/members/:id", controllers.MemberController.show);
+routes.get("/members", handler(controllers.MemberController.index));
+routes.get("/members/:id", handler(controllers.MemberController.show));
 routes.post(
 	"/members",
 	validate(validators.Member),
-	controllers.MemberController.store,
+	handler(controllers.MemberController.store),
 );
 routes.put(
 	"/members/:id",
 	validate(validators.Member),
-	controllers.MemberController.update,
+	handler(controllers.MemberController.update),
 );
-routes.delete("/members/:id", controllers.MemberController.destroy);
+routes.delete("/members/:id", handler(controllers.MemberController.destroy));
+
+routes.use(errorHandlerMiddleware);
 
 module.exports = routes;

@@ -25,10 +25,17 @@ class MemberController {
 	}
 
 	async store (req, res) {
+		//throw new Error();
 		const { name, email } = req.body;
 
-		if ((await Member.findOne({ name })) || (await Member.findOne({ email }))) {
-			return res.status(400).json({ error: "Member already exists!" });
+		if (await Member.findOne({ name })) {
+			return res
+				.status(400)
+				.json({ error: "Member with this name already exists!" });
+		} else if (await Member.findOne({ email })) {
+			return res
+				.status(400)
+				.json({ error: "Member with this email already exists!" });
 		}
 
 		const member = await Member.create({ ...req.body, createdBy: req.userId });
@@ -45,9 +52,9 @@ class MemberController {
 	}
 
 	async destroy (req, res) {
-		await Member.findOneAndDelete(req.params.id);
+		await Member.findByIdAndDelete(req.params.id);
 
-		return res.send("Deleted!");
+		return res.send();
 	}
 }
 
