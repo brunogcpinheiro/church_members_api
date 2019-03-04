@@ -45,7 +45,10 @@ routes.put(
 );
 routes.delete("/members/:id", handler(controllers.MemberController.destroy));
 
-routes.use(Sentry.Handlers.errorHandler());
+if (process.env.NODE_ENV === "production") {
+	return routes.use(Sentry.Handlers.errorHandler());
+}
+
 routes.use(errorHandlerMiddleware);
 
 module.exports = routes;
