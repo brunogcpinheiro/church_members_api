@@ -5,7 +5,7 @@ const handler = require("express-async-handler");
 const Sentry = require("@sentry/node");
 
 const sentryConfig = require("./config/sentry");
-const authMiddleware = require("./middlewares/auth");
+//const authMiddleware = require("./middlewares/auth");
 const errorHandlerMiddleware = require("./middlewares/errorHandler");
 
 const controllers = require("./controllers");
@@ -26,7 +26,7 @@ routes.post(
 );
 
 // Routes below this "routes.use" must be authenticated
-routes.use(authMiddleware);
+//routes.use(authMiddleware);
 
 /**
  * Members Routes

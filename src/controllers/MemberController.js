@@ -12,7 +12,7 @@ class MemberController {
 			page: req.query.page || 1,
 			limit: 20,
 			populate: [ "createdBy" ],
-			sort: "-createdAt",
+			sort: "name",
 		});
 
 		return res.json(members);
